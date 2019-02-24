@@ -1,16 +1,17 @@
 # dove-player
 
-[![Travis][build-badge]][build]
-[![npm package][npm-badge]][npm]
-[![Coveralls][coveralls-badge]][coveralls]
+A react wrapper around videojs-vr and video.js to make 360 videos
 
-Describe dove-player here.
+## Usage
 
-[build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
-[build]: https://travis-ci.org/user/repo
+```javascript
 
-[npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
-[npm]: https://www.npmjs.org/package/npm-package
+import DovePlayer from 'dove-player';
 
-[coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
-[coveralls]: https://coveralls.io/github/user/repo
+
+render(){
+  return (
+    <DovePlayer src={"http://columbidae.tv:9000/videos/test-folder/krash-pt1.mp4"} width={/* optional width constraint */} />
+  );
+}
+```
