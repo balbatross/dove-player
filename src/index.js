@@ -29,7 +29,9 @@ class Video360 extends Component {
     this.player.mediainfo.projection = '360';
     // AUTO is the default and looks at mediainfo
     var vr = this.player.vr({projection: 'AUTO', debug: true, forceCardboard: false});
-    window.camera = this.player.vr().camera;
+    setInterval(() => {
+      window.camera = this.player.vr()
+    }, 1000);
   }
   
   render() {
