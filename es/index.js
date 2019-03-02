@@ -33,6 +33,10 @@ var Video360 = function (_Component) {
     if (this.props.src !== newProps.src) {
       this.player.src({ src: newProps.src });
     }
+
+    if (this.props.camera !== newProps.camera) {
+      this.vr.camera.position = newProps.camera;
+    }
   };
 
   Video360.prototype.componentDidMount = function componentDidMount() {
@@ -42,7 +46,9 @@ var Video360 = function (_Component) {
     this.player.mediainfo = this.player.mediainfo || {};
     this.player.mediainfo.projection = '360';
     // AUTO is the default and looks at mediainfo
-    var vr = this.player.vr({ projection: 'AUTO', debug: true, forceCardboard: false });
+    this.vr = this.player.vr({ projection: 'AUTO', debug: true, forceCardboard: false });
+
+    this.vr.camera.position = this.props.camera;
     setInterval(function () {
       window.camera = _this2.player.vr();
     }, 1000);
