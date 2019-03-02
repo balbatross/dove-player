@@ -23,7 +23,15 @@ class Video360 extends Component {
     }
 
     if(this.props.camera !== newProps.camera){
-      this.vr.camera.position = newProps.camera
+      this.updateCameraPosition(newProps.camera);
+    }
+  }
+
+  updateCameraPosition(pos){
+    if(this.vr && this.vr.camera){
+      this.vr.camera.position.x = pos.x
+      this.vr.camera.position.y = pos.y
+      this.vr.camera.position.z = pos.z
     }
   }
 
@@ -34,9 +42,12 @@ class Video360 extends Component {
     // AUTO is the default and looks at mediainfo
     this.vr = this.player.vr({projection: 'AUTO', debug: true, forceCardboard: false});
    
-    this.vr.camera.position = this.props.camera;
+
     setInterval(() => {
-      window.camera = this.player.vr()
+      this.vr = this.player.vr()
+      this.updateCameraPosition(this.props.camera);
+//      this.vr.camera.position = this.props.camera;
+      window.camera = this.vr
     }, 1000);
   }
   
@@ -46,10 +57,10 @@ class Video360 extends Component {
       <div className="video-360-container">
          <video
               height="300"
-              class="video-js vjs-default-skin"
+              className="video-js vjs-default-skin"
               controls={true}
               autoPlay={false}
-              playsinline
+              playsInline
               crossOrigin="anonymous"
               id="videojs-vr-player" >
      
