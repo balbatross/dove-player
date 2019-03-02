@@ -41,6 +41,7 @@ var Video360 = function (_Component) {
     this.player.mediainfo.projection = '360';
     // AUTO is the default and looks at mediainfo
     var vr = this.player.vr({ projection: 'AUTO', debug: true, forceCardboard: false });
+    window.camera = vr.camera;
   };
 
   Video360.prototype.render = function render() {
