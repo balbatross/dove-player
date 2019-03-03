@@ -42,11 +42,11 @@ var Video360 = function (_Component) {
   };
 
   Video360.prototype.updateCameraPosition = function updateCameraPosition(pos) {
-    if (this.vr && this.vr.camera) {
+    if (this._vr && this._vr.camera) {
       console.log("Updating camera to ", pos);
-      this.vr.camera.position.x = pos.x;
-      this.vr.camera.position.y = pos.y;
-      this.vr.camera.position.z = pos.z;
+      this._vr.camera.position.x = pos.x;
+      this._vr.camera.position.y = pos.y;
+      this._vr.camera.position.z = pos.z;
     }
   };
 
@@ -60,12 +60,12 @@ var Video360 = function (_Component) {
     var _this2 = this;
 
     this.waiter = setInterval(function () {
-      if (!_this2.vr && !_this2.vr.camera) {
-        _this2.vr = _this2.player.vr();
-        if (_this2.vr && _this2.vr.camera) {
+      if (!_this2._vr && !_this2._vr.camera) {
+        _this2._vr = _this2.player.vr();
+        if (_this2._vr && _this2._vr.camera) {
           _this2.updateCameraPosition(_this2.props.camera);
-          window.camera = _this2.vr;
-          _this2.vr.controls3d.orbit.addEventListener('change', _this2.orbitChanged.bind(_this2));
+          window.camera = _this2._vr;
+          _this2._vr.controls3d.orbit.addEventListener('change', _this2.orbitChanged.bind(_this2));
           clearInterval(_this2.waiter);
         }
       }

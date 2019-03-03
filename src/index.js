@@ -29,11 +29,11 @@ class Video360 extends Component {
   }
 
   updateCameraPosition(pos){
-    if(this.vr && this.vr.camera){
+    if(this._vr && this._vr.camera){
       console.log("Updating camera to ", pos)
-      this.vr.camera.position.x = pos.x
-      this.vr.camera.position.y = pos.y
-      this.vr.camera.position.z = pos.z
+      this._vr.camera.position.x = pos.x
+      this._vr.camera.position.y = pos.y
+      this._vr.camera.position.z = pos.z
     }
   }
   
@@ -45,12 +45,12 @@ class Video360 extends Component {
 
   readyWaiter(){
     this.waiter = setInterval(() => {
-      if(!this.vr && !this.vr.camera){
-        this.vr = this.player.vr();
-        if(this.vr && this.vr.camera){
+      if(!this._vr && !this._vr.camera){
+        this._vr = this.player.vr();
+        if(this._vr && this._vr.camera){
           this.updateCameraPosition(this.props.camera);
-          window.camera = this.vr;
-          this.vr.controls3d.orbit.addEventListener('change', this.orbitChanged.bind(this));
+          window.camera = this._vr;
+          this._vr.controls3d.orbit.addEventListener('change', this.orbitChanged.bind(this));
           clearInterval(this.waiter);
         }
       }
