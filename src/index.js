@@ -43,15 +43,24 @@ class Video360 extends Component {
     }
   }
 
+  readyWaiter(){
+    this.waiter = setInterval(() => {
+      if(!this.vr){
+        this.vr = this.player.vr();
+        if(this.vr){
+          this.updateCameraPosition(this.props.camera);
+          window.camera = this.vr;
+          this.vr.controls3d.orbit.addEventListener('change', this.orbitChanged.bind(this));
+          clearInterval(this.waiter);
+        }
+      }
+    }, 250)
+  } 
+
   componentDidMount(){
     this.player =  videojs(this.video, this.props, () => {
       console.log("Player ready")
-      this.vr = this.player.vr();
-      this.updateCameraPosition(this.props.camera)
-      window.camera = this.vr;
-      this.vr.controls3d.orbit.addEventListener('change', (e) => {
-        console.log(e);
-      })
+      this.readyWaiter();
     });
     this.player.mediainfo = this.player.mediainfo || {};
     this.player.mediainfo.projection = '360';

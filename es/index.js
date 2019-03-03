@@ -56,17 +56,28 @@ var Video360 = function (_Component) {
     }
   };
 
-  Video360.prototype.componentDidMount = function componentDidMount() {
+  Video360.prototype.readyWaiter = function readyWaiter() {
     var _this2 = this;
+
+    this.waiter = setInterval(function () {
+      if (!_this2.vr) {
+        _this2.vr = _this2.player.vr();
+        if (_this2.vr) {
+          _this2.updateCameraPosition(_this2.props.camera);
+          window.camera = _this2.vr;
+          _this2.vr.controls3d.orbit.addEventListener('change', _this2.orbitChanged.bind(_this2));
+          clearInterval(_this2.waiter);
+        }
+      }
+    }, 250);
+  };
+
+  Video360.prototype.componentDidMount = function componentDidMount() {
+    var _this3 = this;
 
     this.player = videojs(this.video, this.props, function () {
       console.log("Player ready");
-      _this2.vr = _this2.player.vr();
-      _this2.updateCameraPosition(_this2.props.camera);
-      window.camera = _this2.vr;
-      _this2.vr.controls3d.orbit.addEventListener('change', function (e) {
-        console.log(e);
-      });
+      _this3.readyWaiter();
     });
     this.player.mediainfo = this.player.mediainfo || {};
     this.player.mediainfo.projection = '360';
@@ -76,7 +87,7 @@ var Video360 = function (_Component) {
   };
 
   Video360.prototype.render = function render() {
-    var _this3 = this;
+    var _this4 = this;
 
     return React.createElement(
       'div',
@@ -88,7 +99,7 @@ var Video360 = function (_Component) {
           'video',
           {
             ref: function ref(node) {
-              return _this3.video = node;
+              return _this4.video = node;
             },
             height: '300',
             className: 'video-js vjs-default-skin',
