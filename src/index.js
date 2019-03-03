@@ -45,9 +45,9 @@ class Video360 extends Component {
 
   readyWaiter(){
     this.waiter = setInterval(() => {
-      if(!this.vr){
+      if(!this.vr && !this.vr.camera){
         this.vr = this.player.vr();
-        if(this.vr){
+        if(this.vr && this.vr.camera){
           this.updateCameraPosition(this.props.camera);
           window.camera = this.vr;
           this.vr.controls3d.orbit.addEventListener('change', this.orbitChanged.bind(this));

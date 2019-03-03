@@ -60,9 +60,9 @@ var Video360 = function (_Component) {
     var _this2 = this;
 
     this.waiter = setInterval(function () {
-      if (!_this2.vr) {
+      if (!_this2.vr && !_this2.vr.camera) {
         _this2.vr = _this2.player.vr();
-        if (_this2.vr) {
+        if (_this2.vr && _this2.vr.camera) {
           _this2.updateCameraPosition(_this2.props.camera);
           window.camera = _this2.vr;
           _this2.vr.controls3d.orbit.addEventListener('change', _this2.orbitChanged.bind(_this2));
