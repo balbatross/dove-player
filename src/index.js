@@ -24,10 +24,9 @@ class Video360 extends Component {
     if(this.props.src !== newProps.src){
       this.player.src({src: newProps.src})
     }
-
-    if(this.props.camera !== newProps.camera){
+    
       this.updateCameraPosition(newProps.camera);
-    }
+    
   }
 
   updateCameraPosition(pos){

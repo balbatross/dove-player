@@ -38,9 +38,7 @@ var Video360 = function (_Component) {
       this.player.src({ src: newProps.src });
     }
 
-    if (this.props.camera !== newProps.camera) {
-      this.updateCameraPosition(newProps.camera);
-    }
+    this.updateCameraPosition(newProps.camera);
   };
 
   Video360.prototype.updateCameraPosition = function updateCameraPosition(pos) {
