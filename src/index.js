@@ -49,8 +49,10 @@ class Video360 extends Component {
       if(this.player){
         if(!this._vr){
           this._vr = this.player.vr();
-          clearInterval(this.waiter); 
-          cb()
+          if(this._vr && this._vr.camera){
+            clearInterval(this.waiter); 
+            cb()
+          }
         }
       } 
 

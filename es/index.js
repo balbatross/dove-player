@@ -64,8 +64,10 @@ var Video360 = function (_Component) {
       if (_this2.player) {
         if (!_this2._vr) {
           _this2._vr = _this2.player.vr();
-          clearInterval(_this2.waiter);
-          cb();
+          if (_this2._vr && _this2._vr.camera) {
+            clearInterval(_this2.waiter);
+            cb();
+          }
         }
       }
 
