@@ -10,6 +10,8 @@ class Video360 extends Component {
     super(props);
     this.state = {
       camera: {x: 0, y: 0, z: 0},
+      fov: 75,
+      rotation: 0,
       ...props
     }
   }
@@ -43,24 +45,49 @@ class Video360 extends Component {
     }
   }
 
-  readyWaiter(){
+  readyWaiter(cb){
     this.waiter = setInterval(() => {
-      if(!this._vr && !this._vr.camera){
+      console.log("Waiting")
+      if(this.player){
+        if(!this._vr){
+          this._vr = this.player.vr();
+          clearInterval(this.waiter); 
+          cb()
+        }
+      } 
+
+/*      if(!this._vr && !this._vr.camera){
         this._vr = this.player.vr();
+        console.log(this.player.vr())
         if(this._vr && this._vr.camera){
           this.updateCameraPosition(this.props.camera);
           window.camera = this._vr;
           this._vr.controls3d.orbit.addEventListener('change', this.orbitChanged.bind(this));
           clearInterval(this.waiter);
         }
-      }
+      }*/
     }, 250)
   } 
+
+  orbitChanged(orbit){
+    const position = orbit.target.object.rotation;
+ //   console.log(position)
+    const radians = position.y > 0 ? position.y : (Math.PI * 2) + position.y;
+
+    const rotation = radians * (180 / Math.PI)
+    if(this.props.onRotate)this.props.onRotate(rotation);
+    this.setState({rotation: rotation, fov: this._vr.camera.fov})
+  }
 
   componentDidMount(){
     this.player =  videojs(this.video, this.props, () => {
       console.log("Player ready")
-      this.readyWaiter();
+      this.readyWaiter(() => {
+        this.updateCameraPosition(this.state.camera);
+        window.camera = this._vr;
+        this._vr.camera.rotation.order = "YXZ"
+        this._vr.controls3d.orbit.addEventListener('change', this.orbitChanged.bind(this));
+      });
     });
     this.player.mediainfo = this.player.mediainfo || {};
     this.player.mediainfo.projection = '360';
@@ -73,6 +100,12 @@ class Video360 extends Component {
   render() {
     return (
       <div style={{width: this.props.width || '100%'}}>
+      {/*<div>
+          {this.state.rotation}
+          <br />
+          {this.state.fov}
+        </div>*/}
+      {/*        <div style={{width: '20px', height: '30px', background: 'green', borderRadius: '5px', transform: `translateY(-50%) rotateZ(-${this.state.rotation}deg)`}} />*/}
       <div className="video-360-container">
          <video
               ref={ node => this.video = node}

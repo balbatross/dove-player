@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {render} from 'react-dom'
 
-import Example from '../../src'
+import DovePlayer from '../../src'
 
 class Demo extends Component {
   constructor(props){
@@ -12,15 +12,12 @@ class Demo extends Component {
   }
 
   componentDidMount(){
-    setTimeout(() => {
-      this.setState({src: 'http://columbidae.tv:9000/videos/test-folder/house-1.mp4'})
-    }, 5 * 1000)
   }
 
   render() {
     return <div>
       <h1>dove-player Demo</h1>
-      <Example src={this.state.src} />
+      <DovePlayer width={"50%"} src={this.state.src} />
     </div>
   }
 }

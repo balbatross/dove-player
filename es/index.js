@@ -22,7 +22,9 @@ var Video360 = function (_Component) {
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.state = _extends({
-      camera: { x: 0, y: 0, z: 0 }
+      camera: { x: 0, y: 0, z: 0 },
+      fov: 75,
+      rotation: 0
     }, props);
     return _this;
   }
@@ -56,20 +58,40 @@ var Video360 = function (_Component) {
     }
   };
 
-  Video360.prototype.readyWaiter = function readyWaiter() {
+  Video360.prototype.readyWaiter = function readyWaiter(cb) {
     var _this2 = this;
 
     this.waiter = setInterval(function () {
-      if (!_this2._vr && !_this2._vr.camera) {
-        _this2._vr = _this2.player.vr();
-        if (_this2._vr && _this2._vr.camera) {
-          _this2.updateCameraPosition(_this2.props.camera);
-          window.camera = _this2._vr;
-          _this2._vr.controls3d.orbit.addEventListener('change', _this2.orbitChanged.bind(_this2));
+      console.log("Waiting");
+      if (_this2.player) {
+        if (!_this2._vr) {
+          _this2._vr = _this2.player.vr();
           clearInterval(_this2.waiter);
+          cb();
         }
       }
+
+      /*      if(!this._vr && !this._vr.camera){
+              this._vr = this.player.vr();
+              console.log(this.player.vr())
+              if(this._vr && this._vr.camera){
+                this.updateCameraPosition(this.props.camera);
+                window.camera = this._vr;
+                this._vr.controls3d.orbit.addEventListener('change', this.orbitChanged.bind(this));
+                clearInterval(this.waiter);
+              }
+            }*/
     }, 250);
+  };
+
+  Video360.prototype.orbitChanged = function orbitChanged(orbit) {
+    var position = orbit.target.object.rotation;
+    //   console.log(position)
+    var radians = position.y > 0 ? position.y : Math.PI * 2 + position.y;
+
+    var rotation = radians * (180 / Math.PI);
+    if (this.props.onRotate) this.props.onRotate(rotation);
+    this.setState({ rotation: rotation, fov: this._vr.camera.fov });
   };
 
   Video360.prototype.componentDidMount = function componentDidMount() {
@@ -77,7 +99,12 @@ var Video360 = function (_Component) {
 
     this.player = videojs(this.video, this.props, function () {
       console.log("Player ready");
-      _this3.readyWaiter();
+      _this3.readyWaiter(function () {
+        _this3.updateCameraPosition(_this3.state.camera);
+        window.camera = _this3._vr;
+        _this3._vr.camera.rotation.order = "YXZ";
+        _this3._vr.controls3d.orbit.addEventListener('change', _this3.orbitChanged.bind(_this3));
+      });
     });
     this.player.mediainfo = this.player.mediainfo || {};
     this.player.mediainfo.projection = '360';
