@@ -21,7 +21,9 @@ var Video360 = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.state = _extends({}, props);
+    _this.state = _extends({
+      camera: { x: 0, y: 0, z: 0 }
+    }, props);
     return _this;
   }
 
@@ -48,14 +50,23 @@ var Video360 = function (_Component) {
     }
   };
 
+  Video360.prototype.componentWillUnmount = function componentWillUnmount() {
+    if (this.player) {
+      this.player.dispose();
+    }
+  };
+
   Video360.prototype.componentDidMount = function componentDidMount() {
     var _this2 = this;
 
-    this.player = videojs('videojs-vr-player');
+    this.player = videojs('videojs-vr-player', function () {
+      console.log("Player ready");
+    });
     this.player.mediainfo = this.player.mediainfo || {};
     this.player.mediainfo.projection = '360';
     // AUTO is the default and looks at mediainfo
     this.vr = this.player.vr({ projection: 'AUTO', debug: true, forceCardboard: false });
+    console.log("VR Ready");
 
     setInterval(function () {
       _this2.vr = _this2.player.vr();
@@ -96,7 +107,9 @@ var Video360 = function (_Component) {
 
 Video360.propTypes = process.env.NODE_ENV !== "production" ? {
   src: PropTypes.string.isRequired,
-  width: PropTypes.string
+  width: PropTypes.string,
+  camera: PropTypes.object
+
 } : {};
 
 export default Video360;

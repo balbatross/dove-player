@@ -9,6 +9,7 @@ class Video360 extends Component {
   constructor(props){
     super(props);
     this.state = {
+      camera: {x: 0, y: 0, z: 0},
       ...props
     }
   }
@@ -35,14 +36,22 @@ class Video360 extends Component {
       this.vr.camera.position.z = pos.z
     }
   }
+  
+  componentWillUnmount() {
+    if (this.player) {
+      this.player.dispose()
+    }
+  }
 
   componentDidMount(){
-    this.player =  videojs('videojs-vr-player');
+    this.player =  videojs('videojs-vr-player', () => {
+      console.log("Player ready")
+    });
     this.player.mediainfo = this.player.mediainfo || {};
     this.player.mediainfo.projection = '360';
     // AUTO is the default and looks at mediainfo
     this.vr = this.player.vr({projection: 'AUTO', debug: true, forceCardboard: false});
-   
+    console.log("VR Ready") 
 
     setInterval(() => {
       this.vr = this.player.vr()
@@ -79,7 +88,9 @@ class Video360 extends Component {
 
 Video360.propTypes = {
   src: PropTypes.string.isRequired,
-  width: PropTypes.string
+  width: PropTypes.string,
+  camera: PropTypes.object,
+
 }
 
 export default Video360
