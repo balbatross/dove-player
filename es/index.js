@@ -59,7 +59,7 @@ var Video360 = function (_Component) {
   Video360.prototype.componentDidMount = function componentDidMount() {
     var _this2 = this;
 
-    this.player = videojs('videojs-vr-player', function () {
+    this.player = videojs(this.video, this.props, function () {
       console.log("Player ready");
     });
     this.player.mediainfo = this.player.mediainfo || {};
@@ -80,6 +80,8 @@ var Video360 = function (_Component) {
   };
 
   Video360.prototype.render = function render() {
+    var _this3 = this;
+
     return React.createElement(
       'div',
       { style: { width: this.props.width || '100%' } },
@@ -89,6 +91,9 @@ var Video360 = function (_Component) {
         React.createElement(
           'video',
           {
+            ref: function ref(node) {
+              return _this3.video = node;
+            },
             height: '300',
             className: 'video-js vjs-default-skin',
             controls: true,

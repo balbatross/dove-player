@@ -44,7 +44,7 @@ class Video360 extends Component {
   }
 
   componentDidMount(){
-    this.player =  videojs('videojs-vr-player', () => {
+    this.player =  videojs(this.video, this.props, () => {
       console.log("Player ready")
     });
     this.player.mediainfo = this.player.mediainfo || {};
@@ -69,6 +69,7 @@ class Video360 extends Component {
       <div style={{width: this.props.width || '100%'}}>
       <div className="video-360-container">
          <video
+              ref={ node => this.video = node}
               height="300"
               className="video-js vjs-default-skin"
               controls={true}
