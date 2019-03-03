@@ -32,7 +32,6 @@ class Video360 extends Component {
 
   updateCameraPosition(pos){
     if(this._vr && this._vr.camera){
-      console.log("Updating camera to ", pos)
       this._vr.camera.position.x = pos.x
       this._vr.camera.position.y = pos.y
       this._vr.camera.position.z = pos.z
@@ -47,7 +46,6 @@ class Video360 extends Component {
 
   readyWaiter(cb){
     this.waiter = setInterval(() => {
-      console.log("Waiting")
       if(this.player){
         if(!this._vr){
           this._vr = this.player.vr();
@@ -69,14 +67,20 @@ class Video360 extends Component {
     }, 250)
   } 
 
+  rtoD(i){
+    const r = i > 0 ? i : (Math.PI * 2) + i
+    return i * (180 / Math.PI)
+  }
+
   orbitChanged(orbit){
     const position = orbit.target.object.rotation;
  //   console.log(position)
-    const radians = position.y > 0 ? position.y : (Math.PI * 2) + position.y;
-
-    const rotation = radians * (180 / Math.PI)
-    if(this.props.onRotate)this.props.onRotate(rotation);
-    this.setState({rotation: rotation, fov: this._vr.camera.fov})
+    let y = this.rtoD(position.y)
+    let x = this.rtoD(position.x)
+    let z = this.rtoD(position.z)
+    let o = {x: x, y: y, z: z}
+    if(this.props.onRotate)this.props.onRotate(o);
+    this.setState({rotation: o, fov: this._vr.camera.fov})
   }
 
   componentDidMount(){

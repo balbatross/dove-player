@@ -45,7 +45,6 @@ var Video360 = function (_Component) {
 
   Video360.prototype.updateCameraPosition = function updateCameraPosition(pos) {
     if (this._vr && this._vr.camera) {
-      console.log("Updating camera to ", pos);
       this._vr.camera.position.x = pos.x;
       this._vr.camera.position.y = pos.y;
       this._vr.camera.position.z = pos.z;
@@ -62,7 +61,6 @@ var Video360 = function (_Component) {
     var _this2 = this;
 
     this.waiter = setInterval(function () {
-      console.log("Waiting");
       if (_this2.player) {
         if (!_this2._vr) {
           _this2._vr = _this2.player.vr();
@@ -84,14 +82,20 @@ var Video360 = function (_Component) {
     }, 250);
   };
 
+  Video360.prototype.rtoD = function rtoD(i) {
+    var r = i > 0 ? i : Math.PI * 2 + i;
+    return i * (180 / Math.PI);
+  };
+
   Video360.prototype.orbitChanged = function orbitChanged(orbit) {
     var position = orbit.target.object.rotation;
     //   console.log(position)
-    var radians = position.y > 0 ? position.y : Math.PI * 2 + position.y;
-
-    var rotation = radians * (180 / Math.PI);
-    if (this.props.onRotate) this.props.onRotate(rotation);
-    this.setState({ rotation: rotation, fov: this._vr.camera.fov });
+    var y = this.rtoD(position.y);
+    var x = this.rtoD(position.x);
+    var z = this.rtoD(position.z);
+    var o = { x: x, y: y, z: z };
+    if (this.props.onRotate) this.props.onRotate(o);
+    this.setState({ rotation: o, fov: this._vr.camera.fov });
   };
 
   Video360.prototype.componentDidMount = function componentDidMount() {
