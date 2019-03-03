@@ -41,6 +41,7 @@ var Video360 = function (_Component) {
 
   Video360.prototype.updateCameraPosition = function updateCameraPosition(pos) {
     if (this.vr && this.vr.camera) {
+      console.log("Updating camera to ", pos);
       this.vr.camera.position.x = pos.x;
       this.vr.camera.position.y = pos.y;
       this.vr.camera.position.z = pos.z;
@@ -61,6 +62,9 @@ var Video360 = function (_Component) {
       _this2.updateCameraPosition(_this2.props.camera);
       //      this.vr.camera.position = this.props.camera;
       window.camera = _this2.vr;
+      window.camera.controls3d.addEventListener('change', function (e) {
+        console.log("cahnge", e);
+      });
     }, 1000);
   };
 

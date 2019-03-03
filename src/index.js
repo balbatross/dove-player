@@ -29,6 +29,7 @@ class Video360 extends Component {
 
   updateCameraPosition(pos){
     if(this.vr && this.vr.camera){
+      console.log("Updating camera to ", pos)
       this.vr.camera.position.x = pos.x
       this.vr.camera.position.y = pos.y
       this.vr.camera.position.z = pos.z
@@ -48,6 +49,9 @@ class Video360 extends Component {
       this.updateCameraPosition(this.props.camera);
 //      this.vr.camera.position = this.props.camera;
       window.camera = this.vr
+      window.camera.controls3d.addEventListener('change', (e) => {
+        console.log("cahnge", e)
+      })
     }, 1000);
   }
   
