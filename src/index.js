@@ -46,6 +46,11 @@ class Video360 extends Component {
   componentDidMount(){
     this.player =  videojs(this.video, this.props, () => {
       console.log("Player ready")
+      this.updateCameraPosition(this.props.camera)
+      window.camera = this.vr;
+      this.vr.controls3d.orbit.addEventListener('change', (e) => {
+        console.log(e);
+      })
     });
     this.player.mediainfo = this.player.mediainfo || {};
     this.player.mediainfo.projection = '360';
@@ -53,15 +58,6 @@ class Video360 extends Component {
     this.vr = this.player.vr({projection: 'AUTO', debug: true, forceCardboard: false});
     console.log("VR Ready") 
 
-    setInterval(() => {
-      this.vr = this.player.vr()
-      this.updateCameraPosition(this.props.camera);
-//      this.vr.camera.position = this.props.camera;
-      window.camera = this.vr
-      window.camera.controls3d.orbit.addEventListener('change', (e) => {
-        console.log("cahnge", e)
-      })
-    }, 1000);
   }
   
   render() {
