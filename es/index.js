@@ -62,7 +62,7 @@ var Video360 = function (_Component) {
       _this2.updateCameraPosition(_this2.props.camera);
       //      this.vr.camera.position = this.props.camera;
       window.camera = _this2.vr;
-      window.camera.controls3d.addEventListener('change', function (e) {
+      window.camera.controls3d.orbit.addEventListener('change', function (e) {
         console.log("cahnge", e);
       });
     }, 1000);
