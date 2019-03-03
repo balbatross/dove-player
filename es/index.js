@@ -61,6 +61,7 @@ var Video360 = function (_Component) {
 
     this.player = videojs(this.video, this.props, function () {
       console.log("Player ready");
+      _this2.vr = _this2.player.vr();
       _this2.updateCameraPosition(_this2.props.camera);
       window.camera = _this2.vr;
       _this2.vr.controls3d.orbit.addEventListener('change', function (e) {

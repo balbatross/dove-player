@@ -46,6 +46,7 @@ class Video360 extends Component {
   componentDidMount(){
     this.player =  videojs(this.video, this.props, () => {
       console.log("Player ready")
+      this.vr = this.player.vr();
       this.updateCameraPosition(this.props.camera)
       window.camera = this.vr;
       this.vr.controls3d.orbit.addEventListener('change', (e) => {
