@@ -31,7 +31,9 @@ class Video360 extends Component {
   }
 
   updateCameraPosition(pos){
+    console.log("UPDATE", pos)
     if(this._vr && this._vr.camera){
+      console.log(this.dtoR(pos.z))
       this._vr.camera.position.x = this.dtoR(pos.x)
       this._vr.camera.position.y = this.dtoR(pos.y)
       this._vr.camera.position.z = this.dtoR(pos.z)
