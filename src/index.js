@@ -32,9 +32,9 @@ class Video360 extends Component {
 
   updateCameraPosition(pos){
     if(this._vr && this._vr.camera){
-      this._vr.camera.position.x = pos.x
-      this._vr.camera.position.y = pos.y
-      this._vr.camera.position.z = pos.z
+      this._vr.camera.position.x = this.dtoR(pos.x)
+      this._vr.camera.position.y = this.dtoR(pos.y)
+      this._vr.camera.position.z = this.dtoR(pos.z)
     }
   }
   
@@ -68,6 +68,10 @@ class Video360 extends Component {
       }*/
     }, 250)
   } 
+
+  dtoR(i){
+    return i * (Math.PI / 180)
+  }
 
   rtoD(i){
     const r = i > 0 ? i : (Math.PI * 2) + i
