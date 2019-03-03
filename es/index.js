@@ -84,7 +84,7 @@ var Video360 = function (_Component) {
 
   Video360.prototype.rtoD = function rtoD(i) {
     var r = i > 0 ? i : Math.PI * 2 + i;
-    return i * (180 / Math.PI);
+    return r * (180 / Math.PI);
   };
 
   Video360.prototype.orbitChanged = function orbitChanged(orbit) {

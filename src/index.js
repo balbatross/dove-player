@@ -69,7 +69,7 @@ class Video360 extends Component {
 
   rtoD(i){
     const r = i > 0 ? i : (Math.PI * 2) + i
-    return i * (180 / Math.PI)
+    return r * (180 / Math.PI)
   }
 
   orbitChanged(orbit){
