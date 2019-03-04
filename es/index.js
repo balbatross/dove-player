@@ -44,7 +44,6 @@ var Video360 = function (_Component) {
   Video360.prototype.updateCameraPosition = function updateCameraPosition(pos) {
     console.log("UPDATE", pos);
     if (this._vr && this._vr.camera) {
-      console.log(this.dtoR(pos.z));
       this._vr.camera.position.x = this.dtoR(pos.x);
       this._vr.camera.position.y = this.dtoR(pos.y);
       this._vr.camera.position.z = this.dtoR(pos.z);
@@ -111,9 +110,9 @@ var Video360 = function (_Component) {
       console.log("Player ready");
       _this3.player.on('loadedmetadata', function () {
         console.log("METADATA");
+        _this3.updateCameraPosition(_this3.state.camera);
       });
       _this3.readyWaiter(function () {
-        _this3.updateCameraPosition(_this3.state.camera);
         window.camera = _this3._vr;
         _this3._vr.camera.rotation.order = "YXZ";
         _this3._vr.controls3d.orbit.addEventListener('change', _this3.orbitChanged.bind(_this3));
