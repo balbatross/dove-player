@@ -109,6 +109,9 @@ var Video360 = function (_Component) {
 
     this.player = videojs(this.video, this.props, function () {
       console.log("Player ready");
+      _this3.player.on('loadedmetadata', function () {
+        console.log("METADATA");
+      });
       _this3.readyWaiter(function () {
         _this3.updateCameraPosition(_this3.state.camera);
         window.camera = _this3._vr;

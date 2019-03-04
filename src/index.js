@@ -93,6 +93,9 @@ class Video360 extends Component {
   componentDidMount(){
     this.player =  videojs(this.video, this.props, () => {
       console.log("Player ready")
+      this.player.on('loadedmetadata', () => {
+        console.log("METADATA")
+      })
       this.readyWaiter(() => {
         this.updateCameraPosition(this.state.camera);
         window.camera = this._vr;
