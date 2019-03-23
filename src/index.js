@@ -1,9 +1,16 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import videojs from 'video.js'
+
+import Video from './video';
+import VrVideo from './vrvideo';
+import Image from './image';
+import VrImage from './vrimage';
+import Audio from './audio';
 import 'video.js/dist/video-js.min.css';
 import './index.css';
 require('videojs-vr')
+require('aframe')
 
 class Video360 extends Component {
   constructor(props){
@@ -25,7 +32,7 @@ class Video360 extends Component {
       this.player.src({src: newProps.src})
     }
     
-      this.updateCameraPosition(newProps.camera);
+//      this.updateCameraPosition(newProps.camera);
     
   }
 
@@ -90,6 +97,7 @@ class Video360 extends Component {
   }
 
   componentDidMount(){
+  /*
     this.player =  videojs(this.video, this.props, () => {
       console.log("Player ready")
       this.player.on('loadedmetadata', () => {
@@ -106,33 +114,39 @@ class Video360 extends Component {
     this.player.mediainfo.projection = '360';
     // AUTO is the default and looks at mediainfo
     this.vr = this.player.vr({projection: 'AUTO', debug: true, forceCardboard: false});
-    console.log("VR Ready") 
+    console.log("VR Ready")*/ 
 
+  }
+
+  _renderView(){
+    switch(this.props.type){
+      case 'video':
+        if(this.props.vr){
+          return (<VrVideo camera={this.props.camera} src={this.props.src} />)
+        }else{
+          return (<Video src={this.props.src} />)
+        }
+      case 'image': 
+        if(this.props.vr){
+          return (<VrImage src={this.props.src} />)
+        }else{
+          return (<Image src={this.props.src} />)
+        }
+      case 'audio':
+        if(this.props.vr){
+          
+        }else{
+          return (<Audio src={this.props.src} />)
+        }
+      default:
+        return null;
+    }
   }
   
   render() {
     return (
-      <div style={{width: this.props.width || '100%'}}>
-      {/*<div>
-          {this.state.rotation}
-          <br />
-          {this.state.fov}
-        </div>*/}
-      {/*        <div style={{width: '20px', height: '30px', background: 'green', borderRadius: '5px', transform: `translateY(-50%) rotateZ(-${this.state.rotation}deg)`}} />*/}
-      <div className="video-360-container">
-         <video
-              ref={ node => this.video = node}
-              height="300"
-              className="video-js vjs-default-skin"
-              controls={true}
-              autoPlay={false}
-              playsInline
-              crossOrigin="anonymous"
-              id="videojs-vr-player" >
-     
-             <source src={this.state.src} type="video/mp4"/>
-            </video>
-      </div>
+      <div style={{flex: 1, display: 'flex', height: '100%'}}> 
+        {this._renderView()}
       </div>
 
       )
@@ -141,6 +155,9 @@ class Video360 extends Component {
 
 Video360.propTypes = {
   src: PropTypes.string.isRequired,
+  style: PropTypes.object,
+  vr: PropTypes.bool,
+  type: PropTypes.string,
   width: PropTypes.string,
   camera: PropTypes.object,
 

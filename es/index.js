@@ -9,9 +9,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import videojs from 'video.js';
+
+import Video from './video';
+import VrVideo from './vrvideo';
+import Image from './image';
+import VrImage from './vrimage';
+import Audio from './audio';
 import 'video.js/dist/video-js.min.css';
 import './index.css';
 require('videojs-vr');
+require('aframe');
 
 var Video360 = function (_Component) {
   _inherits(Video360, _Component);
@@ -38,7 +45,7 @@ var Video360 = function (_Component) {
       this.player.src({ src: newProps.src });
     }
 
-    this.updateCameraPosition(newProps.camera);
+    //      this.updateCameraPosition(newProps.camera);
   };
 
   Video360.prototype.updateCameraPosition = function updateCameraPosition(pos) {
@@ -104,52 +111,55 @@ var Video360 = function (_Component) {
   };
 
   Video360.prototype.componentDidMount = function componentDidMount() {
-    var _this3 = this;
+    /*
+      this.player =  videojs(this.video, this.props, () => {
+        console.log("Player ready")
+        this.player.on('loadedmetadata', () => {
+          console.log("METADATA")
+          this.updateCameraPosition(this.state.camera);
+        })
+        this.readyWaiter(() => {
+          window.camera = this._vr;
+          this._vr.camera.rotation.order = "YXZ"
+          this._vr.controls3d.orbit.addEventListener('change', this.orbitChanged.bind(this));
+        });
+      });
+      this.player.mediainfo = this.player.mediainfo || {};
+      this.player.mediainfo.projection = '360';
+      // AUTO is the default and looks at mediainfo
+      this.vr = this.player.vr({projection: 'AUTO', debug: true, forceCardboard: false});
+      console.log("VR Ready")*/
 
-    this.player = videojs(this.video, this.props, function () {
-      console.log("Player ready");
-      _this3.player.on('loadedmetadata', function () {
-        console.log("METADATA");
-        _this3.updateCameraPosition(_this3.state.camera);
-      });
-      _this3.readyWaiter(function () {
-        window.camera = _this3._vr;
-        _this3._vr.camera.rotation.order = "YXZ";
-        _this3._vr.controls3d.orbit.addEventListener('change', _this3.orbitChanged.bind(_this3));
-      });
-    });
-    this.player.mediainfo = this.player.mediainfo || {};
-    this.player.mediainfo.projection = '360';
-    // AUTO is the default and looks at mediainfo
-    this.vr = this.player.vr({ projection: 'AUTO', debug: true, forceCardboard: false });
-    console.log("VR Ready");
+  };
+
+  Video360.prototype._renderView = function _renderView() {
+    switch (this.props.type) {
+      case 'video':
+        if (this.props.vr) {
+          return React.createElement(VrVideo, { camera: this.props.camera, src: this.props.src });
+        } else {
+          return React.createElement(Video, { src: this.props.src });
+        }
+      case 'image':
+        if (this.props.vr) {
+          return React.createElement(VrImage, { src: this.props.src });
+        } else {
+          return React.createElement(Image, { src: this.props.src });
+        }
+      case 'audio':
+        if (this.props.vr) {} else {
+          return React.createElement(Audio, { src: this.props.src });
+        }
+      default:
+        return null;
+    }
   };
 
   Video360.prototype.render = function render() {
-    var _this4 = this;
-
     return React.createElement(
       'div',
-      { style: { width: this.props.width || '100%' } },
-      React.createElement(
-        'div',
-        { className: 'video-360-container' },
-        React.createElement(
-          'video',
-          {
-            ref: function ref(node) {
-              return _this4.video = node;
-            },
-            height: '300',
-            className: 'video-js vjs-default-skin',
-            controls: true,
-            autoPlay: false,
-            playsInline: true,
-            crossOrigin: 'anonymous',
-            id: 'videojs-vr-player' },
-          React.createElement('source', { src: this.state.src, type: 'video/mp4' })
-        )
-      )
+      { style: { flex: 1, display: 'flex', height: '100%' } },
+      this._renderView()
     );
   };
 
@@ -158,6 +168,9 @@ var Video360 = function (_Component) {
 
 Video360.propTypes = process.env.NODE_ENV !== "production" ? {
   src: PropTypes.string.isRequired,
+  style: PropTypes.object,
+  vr: PropTypes.bool,
+  type: PropTypes.string,
   width: PropTypes.string,
   camera: PropTypes.object
 
