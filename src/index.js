@@ -10,7 +10,6 @@ import Audio from './audio';
 import 'video.js/dist/video-js.min.css';
 import './index.css';
 
-require('aframe')
 
 class Video360 extends Component {
   constructor(props){

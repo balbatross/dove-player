@@ -17,8 +17,6 @@ import Audio from './audio';
 import 'video.js/dist/video-js.min.css';
 import './index.css';
 
-require('aframe');
-
 var Video360 = function (_Component) {
   _inherits(Video360, _Component);
 
