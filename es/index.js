@@ -12,12 +12,11 @@ import videojs from 'video.js';
 
 import Video from './video';
 import VrVideo from './vrvideo';
-import Image from './image';
-import VrImage from './vrimage';
+
 import Audio from './audio';
 import 'video.js/dist/video-js.min.css';
 import './index.css';
-require('videojs-vr');
+
 require('aframe');
 
 var Video360 = function (_Component) {
