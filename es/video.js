@@ -16,7 +16,7 @@ var Video = function (_Component) {
   }
 
   Video.prototype.render = function render() {
-    return React.createElement('video', { src: this.props.src, style: this.props.style });
+    return React.createElement('video', { controls: true, src: this.props.src, style: this.props.style });
   };
 
   return Video;

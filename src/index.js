@@ -4,8 +4,8 @@ import videojs from 'video.js'
 
 import Video from './video';
 import VrVideo from './vrvideo';
-
-
+import VrImage from './vrimage';
+import Image from './image';
 import Audio from './audio';
 import 'video.js/dist/video-js.min.css';
 import './index.css';

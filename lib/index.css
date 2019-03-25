@@ -1,3 +1,24 @@
+.vr-video__play-button{
+  width: 74px;
+  height: 74px;
+  border-style: solid;
+  box-sizing: border-box;
+  border-width: 37px 0px 37px 74px;
+  border-color: transparent transparent transparent #202020; 
+  position: absolute;
+  left: 50%;
+  margin-left: -37px;
+  top: 50%;
+  margin-top: -37px;
+  cursor: pointer;
+}
+
+.dove-player__vr-video{
+  flex: 1;
+  display: flex;
+  position: relative;
+}
+
 .video-360-container{
   display: flex;
   padding-top: 56.25%;

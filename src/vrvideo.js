@@ -7,18 +7,24 @@ export default class VrVideo extends Component {
     super(props);
   }
 
+  _play(){
+//    document.querySelector("#video").components.material.material.map.image.play();
+  }
+
   render(){
     return ( 
+    <div className="dove-player__vr-video">
+      <div className="vr-video__play-button" onClick={this._play.bind(this)}/>
       <a-scene embedded style={{flex: 1, display: 'flex', flexDirection: 'column'}}> 
-          <a-videosphere style={{flex: 1}} rotation={`${this.props.camera.x} ${this.props.camera.y} ${this.props.camera.z}`} src="#video" 
-                         play-on-window-click
-                         play-on-vrdisplayactivate-or-enter-vr>
+          <a-videosphere 
+            play-on-window-click
+            style={{flex: 1}} rotation={`${this.props.camera.x} ${this.props.camera.y} ${this.props.camera.z}`} src="#video"> 
           </a-videosphere>    
-        <a-entity camera look-controls position="0 0 0"></a-entity>
-        <a-assets timeout="1">
+
+        <a-assets>
         
             <video id="video" style={{display:"none"}}
-                 autoPlay loop crossOrigin="anonymous" playsInline>
+                 autoPlay crossOrigin="anonymous" playsInline>
       
        
               <source type="video/mp4"
@@ -26,6 +32,7 @@ export default class VrVideo extends Component {
             </video>
         </a-assets>
       </a-scene>
+    </div>
     );
   }
 }

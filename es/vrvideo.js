@@ -15,23 +15,31 @@ var VrVideo = function (_Component) {
     return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
+  VrVideo.prototype._play = function _play() {
+    //    document.querySelector("#video").components.material.material.map.image.play();
+  };
+
   VrVideo.prototype.render = function render() {
     return React.createElement(
-      'a-scene',
-      { embedded: true, style: { flex: 1, display: 'flex', flexDirection: 'column' } },
-      React.createElement('a-videosphere', { style: { flex: 1 }, rotation: this.props.camera.x + ' ' + this.props.camera.y + ' ' + this.props.camera.z, src: '#video',
-        'play-on-window-click': true,
-        'play-on-vrdisplayactivate-or-enter-vr': true }),
-      React.createElement('a-entity', { camera: true, 'look-controls': true, position: '0 0 0' }),
+      "div",
+      { className: "dove-player__vr-video" },
+      React.createElement("div", { className: "vr-video__play-button", onClick: this._play.bind(this) }),
       React.createElement(
-        'a-assets',
-        { timeout: '1' },
+        "a-scene",
+        { embedded: true, style: { flex: 1, display: 'flex', flexDirection: 'column' } },
+        React.createElement("a-videosphere", {
+          "play-on-window-click": true,
+          style: { flex: 1 }, rotation: this.props.camera.x + " " + this.props.camera.y + " " + this.props.camera.z, src: "#video" }),
         React.createElement(
-          'video',
-          { id: 'video', style: { display: "none" },
-            autoPlay: true, loop: true, crossOrigin: 'anonymous', playsInline: true },
-          React.createElement('source', { type: 'video/mp4',
-            src: this.props.src })
+          "a-assets",
+          null,
+          React.createElement(
+            "video",
+            { id: "video", style: { display: "none" },
+              autoPlay: true, crossOrigin: "anonymous", playsInline: true },
+            React.createElement("source", { type: "video/mp4",
+              src: this.props.src })
+          )
         )
       )
     );
