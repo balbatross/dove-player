@@ -5,13 +5,35 @@
   box-sizing: border-box;
   border-width: 37px 0px 37px 74px;
   border-color: transparent transparent transparent #202020; 
+  margin-left: 18.5px;
+}
+
+.vr-video__pause-button{
+  width:0;
+  height: 74px;
+  border-style: double; 
+  border-width: 0px 0px 0px 37px;
+  border-color: #202020;
+}
+
+.vr-video__button{
+  z-index: 10;
+  box-shadow: -3px 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 75px;
+  background-color: #dfdfdf;
+  height: 150px;
+  width: 150px;
+  cursor: pointer; 
   position: absolute;
   left: 50%;
-  margin-left: -37px;
+  margin-left: -75px;
   top: 50%;
-  margin-top: -37px;
-  cursor: pointer;
+  margin-top: -75px;
 }
+
 
 .dove-player__vr-video{
   flex: 1;

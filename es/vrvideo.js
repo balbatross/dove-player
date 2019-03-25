@@ -12,10 +12,16 @@ var VrVideo = function (_Component) {
   function VrVideo(props) {
     _classCallCheck(this, VrVideo);
 
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+
+    _this.state = {
+      playing: true
+    };
+    return _this;
   }
 
   VrVideo.prototype._play = function _play() {
+    this.setState({ playing: !this.state.playing });
     //    document.querySelector("#video").components.material.material.map.image.play();
   };
 
@@ -23,7 +29,11 @@ var VrVideo = function (_Component) {
     return React.createElement(
       "div",
       { className: "dove-player__vr-video" },
-      React.createElement("div", { className: "vr-video__play-button", onClick: this._play.bind(this) }),
+      React.createElement(
+        "div",
+        { className: "vr-video__button", onClick: this._play.bind(this) },
+        React.createElement("div", { className: "vr-video__" + (!this.state.playing ? 'play' : 'pause') + "-button" })
+      ),
       React.createElement(
         "a-scene",
         { embedded: true, style: { flex: 1, display: 'flex', flexDirection: 'column' } },
